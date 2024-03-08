@@ -74,9 +74,9 @@ type MiddlewareAccumulator = (middleware: NextMiddleware) => NextMiddleware;
 
 // has to be invoked from a util or helper func
 function combineMiddlewares(
-  functions = [],
+  functions: MiddlewareFactory[] = [],
   index = 0
-) {
+); : NextMiddleware {
   const current = functions[index];
   if (current) {
     const next = combineMiddlewares(functions, index + 1);
@@ -88,7 +88,7 @@ function combineMiddlewares(
 // a sample middleware
 export const withLogging: MiddlewareAccumulator = next => {
   return async (req: NextRequest, _next: NextFetchEvent) => {
-    console.log("Log some data here", request.nextUrl.pathname);
+    console.log("Log some data here", req.nextUrl.pathname);
     return next(request, _next);
   };
 };
